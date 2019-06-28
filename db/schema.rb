@@ -1318,7 +1318,9 @@ ActiveRecord::Schema.define(version: 20191108173350) do
     t.integer "author_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "title"
+    t.string   "title"
+    t.datetime "hidden_at"
+    t.index ["hidden_at"], name: "index_signature_sheets_on_hidden_at", using: :btree
   end
 
   create_table "signatures", id: :serial, force: :cascade do |t|
