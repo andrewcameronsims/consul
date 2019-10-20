@@ -660,6 +660,12 @@ describe Budget::Investment do
         investment = create(:budget_investment, title: "Investment title")
         expect(Budget::Investment.search_by_title_or_id("Investment title")).to eq([investment])
       end
+
+      it "finds investments with numbers in their title" do
+        investment = create(:budget_investment, title: "99 red balloons")
+
+        expect(Budget::Investment.search_by_title_or_id("99")).to eq([investment])
+      end
     end
   end
 
