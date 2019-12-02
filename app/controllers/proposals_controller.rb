@@ -57,6 +57,7 @@ class ProposalsController < ApplicationController
   end
 
   def vote
+    create_follow
     @proposal.register_vote(current_user, "yes")
     set_proposal_votes(@proposal)
   end
@@ -181,5 +182,19 @@ class ProposalsController < ApplicationController
       if Setting["feature.user.recommendations_on_proposals"] && current_user.recommended_proposals
         @recommended_proposals = Proposal.recommendations(current_user).sort_by_random.limit(3)
       end
+    end
+
+    def create_follow
+      followable_params
+      follows_controller = FollowsController.new
+      follows_controller.request = request
+      follows_controller.response = response
+      follows_controller.params = params
+      follows_controller.create
+    end
+
+    def followable_params
+      params[:followable_id] = params[:id].split('-')[0]
+      params[:followable_type] = "Proposal"
     end
 end
